@@ -2,14 +2,17 @@ import motor.motor_asyncio
 from bson import ObjectId
 from datetime import datetime
 import asyncio
+import ssl
+from fastapi import FastAPI
 
-# MongoDB connection details for local MongoDB instance
-MONGO_DETAILS = "mongodb+srv://kasthurikulal883:zPnVcscuszVqE5XS@demo.hawle.mongodb.net/development?retryWrites=true&w=majority&tls=true&appName=demo"
-# Create a MongoDB client
+# MongoDB connection details for MongoDB Atlas instance
+MONGO_DETAILS = "mongodb+srv://kasthurikulal883:zPnVcscuszVqE5XS@demo.hawle.mongodb.net/development?retryWrites=true&w=majority&tls=true"
+
+# Create a MongoDB client with context manager
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 
 # Specify the database
-database = client.apimode
+database = client.development  # Ensure this matches your database name
 
 # Collections
 items_collection = database.get_collection("items")
@@ -36,7 +39,17 @@ async def test_connection():
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")
 
+# Create FastAPI app
+app = FastAPI()
+
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the API!"}
+
 # Run the test connection function
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(test_connection())
+    # Run the FastAPI app
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=8000)
