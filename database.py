@@ -4,7 +4,7 @@ from datetime import datetime
 import asyncio
 
 # MongoDB connection details for local MongoDB instance
-MONGO_DETAILS = "mongodb+srv://kasthurikulal883:zPnVcscuszVqE5XS@demo.hawle.mongodb.net/development?retryWrites=true&w=majority&appName=demo&tls=true"
+MONGO_DETAILS = "mongodb+srv://kasthurikulal883:zPnVcscuszVqE5XS@demo.hawle.mongodb.net/development?retryWrites=true&w=majority&tls=true&appName=demo"
 # Create a MongoDB client
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 
